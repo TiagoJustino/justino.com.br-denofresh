@@ -16,6 +16,7 @@ export default function Footer({ children }: Props) {
         { name: 'Instagram', href: 'https://www.instagram.com/tiagovmjustino' },
       ],
     },
+      /*
     {
       title: 'Sitemap',
       children: [
@@ -23,6 +24,7 @@ export default function Footer({ children }: Props) {
         { name: 'Blog', href: '/blog/introduction' },
       ],
     },
+       */
   ]
 
   return (

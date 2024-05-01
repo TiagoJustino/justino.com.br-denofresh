@@ -1,7 +1,16 @@
 import BlogTitle from "./BlogTitle.tsx";
 import NavigationBar from "./NavigationBar.tsx";
 
-export default function Header(props: { title: string; active: string }) {
+interface HeaderProps {
+    title: string;
+    active: string;
+    state: {
+        lang: string;
+    }
+    setState: Function;
+}
+
+export default function Header(props: HeaderProps) {
   const isHome = props.active == "/";
   return (
     <div>
@@ -17,9 +26,9 @@ export default function Header(props: { title: string; active: string }) {
             <BlogTitle title={props.title} />
           </div>
         )}
-        <NavigationBar class="hidden md:flex" active={props.active} />
+        <NavigationBar class="hidden md:flex" active={props.active} state={props.state} setState={props.setState} />
       </header>
-      <NavigationBar class="md:hidden pb-3" active={props.active} />
+      <NavigationBar class="md:hidden pb-3" active={props.active} state={props.state} setState={props.setState} />
     </div>
   );
 }
@@ -27,7 +36,7 @@ export default function Header(props: { title: string; active: string }) {
 function Logo() {
   return (
     <a href="/" class="flex mr-3 items-center">
-      <img src="/logo.svg" alt="Fresh logo" width={40} height={40} />
+      <img src="/logo.jpg" alt="Letters T and J" width={40} height={40} />
     </a>
   );
 }
