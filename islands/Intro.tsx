@@ -102,7 +102,7 @@ export function Intro({state, setState}: {state: {lang: string}, setState: Funct
                     {state.lang == 'en' ? GreetEn() : GreetPt()}
                     <picture class="block mt-4 md:mt-0">
                         <img
-                            src="/tiago-04.png"
+                            src="/tiago.jpeg"
                             class="w-80 mx-auto"
                             width={800}
                             height={678}
