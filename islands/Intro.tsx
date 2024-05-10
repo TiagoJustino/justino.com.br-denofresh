@@ -1,7 +1,3 @@
-import {Button} from "../components/Button.tsx";
-import {State} from "https://deno.land/std@0.145.0/encoding/_yaml/state.ts";
-import {Dispatch} from "https://esm.sh/v128/preact@10.19.6/hooks/src/index.d.ts";
-
 function GreetPt() {
     return (
         <div className="flex-1 text-center md:text-left">
@@ -37,7 +33,8 @@ function TextPt() {
     return (
         <>
             <div className="md:flex items-center"><p>
-                Sou Tiago Justino, bacharel em Ciências da Computação pela <a
+                Sou Tiago Justino, desenvolvedor de software com quase 20 anos de experiência,
+                bacharel em Ciências da Computação pela <a
                 className="text-blue-500 hover:text-blue-700 hover:underline"
                 href="https://www.uece.br/cct/ciencias-da-computacao/">Universidade Estadual do Ceará</a> e
                 mestre em Interação Humano-Computador pelo <a
@@ -67,7 +64,8 @@ function TextEn() {
     return (
         <>
             <div className="md:flex items-center"><p>
-                I am Tiago Justino, BS in Computer Science from <a
+                I am Tiago Justino, software developer with almost 20 years of experience,
+                BS in Computer Science from <a
                 className="text-blue-500 hover:text-blue-700 hover:underline"
                 href="https://www.uece.br/cct/ciencias-da-computacao/">The
                 State University of Ceará</a> and

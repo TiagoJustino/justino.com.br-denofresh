@@ -1,5 +1,4 @@
 import { ComponentChildren } from 'preact'
-import HammerIcon from 'https://deno.land/x/tabler_icons_tsx@0.0.1/tsx/hammer.tsx'
 import BrandGithub from 'https://deno.land/x/tabler_icons_tsx@0.0.1/tsx/brand-github.tsx'
 type Props = {
   children?: ComponentChildren
@@ -14,6 +13,7 @@ export default function Footer({ children }: Props) {
         { name: 'GitHub', href: 'https://github.com/tiagojustino' },
         { name: 'Facebook', href: 'http://www.facebook.com/tiagovmjustino' },
         { name: 'Instagram', href: 'https://www.instagram.com/tiagovmjustino' },
+        { name: 'YouTube', href: 'https://www.youtube.com/@TiagoJustinoVM' },
       ],
     },
       /*
