@@ -1,8 +1,8 @@
-import BrandGithub from 'https://deno.land/x/tabler_icons_tsx@0.0.1/tsx/brand-github.tsx'
-import BrandLinkedin from 'https://deno.land/x/tabler_icons_tsx@0.0.1/tsx/brand-linkedin.tsx'
-import BrandFacebook from 'https://deno.land/x/tabler_icons_tsx@0.0.1/tsx/brand-facebook.tsx'
-import BrandInstagram from 'https://deno.land/x/tabler_icons_tsx@0.0.1/tsx/brand-instagram.tsx'
-import BrandYoutube from 'https://deno.land/x/tabler_icons_tsx@0.0.1/tsx/brand-youtube.tsx'
+import BrandGithub from '$tablericons/brand-github.tsx'
+import BrandLinkedin from '$tablericons/brand-linkedin.tsx'
+import BrandFacebook from '$tablericons/brand-facebook.tsx'
+import BrandInstagram from '$tablericons/brand-instagram.tsx'
+import BrandYoutube from '$tablericons/brand-youtube.tsx'
 import {Button} from "./Button.tsx";
 
 interface Item {
@@ -20,19 +20,19 @@ interface NavigationBarProps {
 }
 
 export default function NavigationBar(props: NavigationBarProps) {
-  /*
-  const items = [
+  const brItems = [
     {
-      name: 'Showcase',
-      href: '/showcase',
+      name: 'QueroCodar',
+      href: 'https://querocodar.com.br',
     },
+  ];
+  const enItems = [
     {
-      name: 'Blog',
-      href: '/blog/introduction',
+      name: 'IWannaCode',
+      href: 'https://iwannacode.com',
     },
-  ]
-   */
-  const items: Item[] = [];
+  ];
+  const items = props.state.lang == 'br' ? brItems : enItems;
   const propClass = props.class ?? '';
   return (
       <nav class={'flex ' + propClass}>

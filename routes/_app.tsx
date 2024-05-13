@@ -5,8 +5,7 @@ export default function App({ Component }: PageProps) {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>justino.com.br-denofresh</title>
-        
+        <title>Tiago Justino - Software Developer</title>
       </head>
       <body>
         <Component />

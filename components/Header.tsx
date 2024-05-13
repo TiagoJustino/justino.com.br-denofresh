@@ -1,4 +1,3 @@
-import BlogTitle from "./BlogTitle.tsx";
 import NavigationBar from "./NavigationBar.tsx";
 
 interface HeaderProps {
@@ -23,7 +22,6 @@ export default function Header(props: HeaderProps) {
         {!isHome && (
           <div class="p-4 flex items-center">
             <Logo />
-            <BlogTitle title={props.title} />
           </div>
         )}
         <NavigationBar class="hidden md:flex" active={props.active} state={props.state} setState={props.setState} />
