@@ -8,7 +8,7 @@ export function Body() {
    return (
        <div className="flex flex-col min-h-screen selection::bg-tiago-bg selection::text-tiago-white">
            <div className="bg-tiago-bg flex flex-col">
-               <Header title="" active="/" state={state} setState={setState} />
+               <Header title="Tiago Justino" active="/" state={state} setState={setState} />
            </div>
            <div className="flex-1">
                <Intro state={state} setState={setState}/>

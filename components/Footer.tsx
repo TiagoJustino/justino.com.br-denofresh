@@ -67,7 +67,7 @@ export default function Footer({ children }: Props) {
           </a>
 
           <a
-            href="https://github.com/TiagoJustino/justino.com.br-denofresh"
+            href="https://github.com/TiagoJustino/querocodar"
             class="inline-block hover:text-black"
           >
             <BrandGithub />

@@ -36,7 +36,7 @@ export default function NavigationBar(props: NavigationBarProps) {
   const propClass = props.class ?? '';
   return (
       <nav class={'flex ' + propClass}>
-        <ul class="flex justify-center items-center gap-4 mx-4 my-6 flex-wrap">
+        <ul class="flex justify-center items-center gap-4 mx-4 my-1 flex-wrap">
           {items.map((item) => (
               <li>
                 <a
@@ -90,7 +90,6 @@ export default function NavigationBar(props: NavigationBarProps) {
               <BrandYoutube/>
             </a>
           </li>
-        </ul>
         <div className="max-w-screen-md mx-auto my-2 px(4 sm:6 md:8) space-y-12">
           <div className="md:flex items-center justify-end">
             <div className="flex text-center md:text-left justify-end">
@@ -117,6 +116,7 @@ export default function NavigationBar(props: NavigationBarProps) {
             </div>
           </div>
         </div>
+        </ul>
       </nav>
   )
 }
