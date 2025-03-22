@@ -1,9 +1,10 @@
 import { Head } from '$fresh/runtime.ts';
 import { PageProps } from '$fresh/server.ts';
-import { Body } from '../islands/Body.tsx';
 import { DESCRIPTION, TITLE } from '../utils/constants.ts';
+import BouncingBall from '../islands/BouncingBall.tsx';
+import Overlap from '../islands/Overlap.tsx';
 
-export default function MainPage(props: PageProps) {
+export default function OverlapPage(props: PageProps) {
   return (
     <>
       <Head>
@@ -14,7 +15,7 @@ export default function MainPage(props: PageProps) {
         <meta property='og:type' content='website' />
         <meta property='og:url' content={props.url.href} />
       </Head>
-      <Body />
+      <Overlap />
     </>
   );
 }
