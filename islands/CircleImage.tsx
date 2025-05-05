@@ -1,18 +1,19 @@
-export class Circle {
+export class CircleImage {
   x: number;
   y: number;
   radius: number;
-  private color: string;
+  uri: string;
   vx: number;
   vy: number;
   overlaping: boolean;
+  image: HTMLImageElement;
 
   constructor(
     input: {
       x: number;
       y: number;
       radius: number;
-      color: string;
+      uri: string;
       vx: number;
       vy: number;
     },
@@ -20,20 +21,15 @@ export class Circle {
     this.x = input.x;
     this.y = input.y;
     this.radius = input.radius;
-    this.color = input.color;
+    this.uri = input.uri;
     this.vx = input.vx;
     this.vy = input.vy;
     this.overlaping = false;
+    this.image = new Image();
+    this.image.src = this.uri;
   }
 
-  getColor() {
-    if (this.overlaping) {
-      return "red";
-    }
-    return this.color;
-  }
-
-  checkOverlap(other: Circle) {
+  checkOverlap(other: CircleImage) {
     const distance = Math.sqrt(
       Math.pow(this.x - other.x, 2) +
         Math.pow(this.y - other.y, 2),
@@ -81,17 +77,28 @@ export class Circle {
   }
 
   display(ctx: CanvasRenderingContext2D) {
-    ctx.beginPath();
-    ctx.arc(
-      this.x,
-      this.y,
-      this.radius,
-      0,
-      Math.PI * 2,
-      true,
+    if (this.overlaping) {
+      ctx.beginPath();
+      ctx.arc(
+        this.x,
+        this.y,
+        this.radius,
+        0,
+        Math.PI * 2,
+        true,
+      );
+      ctx.fillStyle = "red";
+      ctx.fill();
+      ctx.stroke();
+      ctx.globalAlpha = 0.4;
+    }
+    ctx.drawImage(
+      this.image,
+      this.x - this.radius,
+      this.y - this.radius,
+      2 * this.radius,
+      2 * this.radius,
     );
-    ctx.fillStyle = this.getColor();
-    ctx.fill();
-    ctx.stroke();
+    ctx.globalAlpha = 1;
   }
 }

@@ -1,4 +1,6 @@
 {
   "cody.customHeaders": {},
-  "cody.autocomplete.advanced.provider": "experimental-ollama"
+  "cody.autocomplete.advanced.provider": "experimental-ollama",
+  "IDX.aI.enableInlineCompletion": true,
+  "IDX.aI.enableCodebaseIndexing": true
 }

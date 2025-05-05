@@ -1,40 +1,36 @@
 import Canvas, { IDrawer } from "./Canvas.tsx";
-import { Circle } from "./Circle.tsx";
 import { getRandomInt } from "../utils/get-random-int.ts";
+import { CircleImage } from "./CircleImage.tsx";
 
-// https://www.youtube.com/watch?v=V7k5bFQbhG0
+// https://www.youtube.com/watch?v=7BoJBYh16CQ
 
 class Drawer implements IDrawer {
-  circles;
+  circles: CircleImage[];
 
   constructor() {
     this.circles = [];
-    const colors = [
-      "blue",
-      "green",
-      "yellow",
-      "purple",
-      "orange",
-      "pink",
-      "brown",
-      "gray",
-      "black",
+  }
+
+  async setup(ctx: CanvasRenderingContext2D) {
+    const uris = [
+      "https://mdn.github.io/shared-assets/images/examples/rhino.jpg",
+      "https://justino.com.br/tiago.jpeg",
+      "https://justino.com.br/en.png",
+      "https://justino.com.br/br.png",
+      "https://justino.com.br/logo.jpg",
     ];
-    for (const color of colors) {
+    for (const uri of uris) {
       this.circles.push(
-        new Circle({
+        new CircleImage({
           x: getRandomInt(0, 100),
           y: getRandomInt(0, 100),
           radius: getRandomInt(30, 90),
-          color: color,
+          uri,
           vx: getRandomInt(1, 5),
           vy: getRandomInt(1, 5),
         }),
       );
     }
-  }
-
-  async setup(ctx: CanvasRenderingContext2D) {
   }
 
   async loop(ctx: CanvasRenderingContext2D) {
@@ -61,6 +57,6 @@ class Drawer implements IDrawer {
   }
 }
 
-export default function Overlap() {
+export default function AnimatedImage() {
   return <Canvas key="canvas" drawer={new Drawer()}></Canvas>;
 }

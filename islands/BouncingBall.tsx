@@ -1,4 +1,4 @@
-import Canvas, { IDrawer } from './Canvas.tsx';
+import Canvas, { IDrawer } from "./Canvas.tsx";
 
 // https://www.youtube.com/watch?v=YIKRXl3wH8Y
 
@@ -10,7 +10,7 @@ class Drawer implements IDrawer {
       x: 100,
       y: 100,
       radius: 50,
-      color: 'red',
+      color: "red",
       vx: 2,
       vy: 2,
     };
@@ -53,5 +53,5 @@ class Drawer implements IDrawer {
 }
 
 export default function BouncingBall() {
-  return <Canvas key='canvas' drawer={new Drawer()}></Canvas>;
+  return <Canvas key="canvas" drawer={new Drawer()}></Canvas>;
 }
