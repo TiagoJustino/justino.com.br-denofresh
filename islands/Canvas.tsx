@@ -1,7 +1,6 @@
-import { useEffect, useRef } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
-import { useState } from "preact/hooks";
 
 export interface IDrawer {
   loop?: (ctx: CanvasRenderingContext2D) => Promise<void>;
@@ -15,50 +14,68 @@ interface CanvasProps {
 
 export default function Canvas(props: CanvasProps) {
   const canvasRef = useRef(null);
+  const animationFrameId = useRef<number | null>(null);
+  const drawerRef = useRef(props.drawer);
+
+  useEffect(() => {
+    drawerRef.current = props.drawer;
+  }, [props.drawer]);
+
   let ctx: CanvasRenderingContext2D | null = null;
   let canvas: HTMLCanvasElement | null = null;
 
   const [state, setState] = useState({ lang: "en" });
 
-  async function innerLoop() {
-    if (!canvas || !ctx) {
-      return;
-    }
-
-    if (
-      canvas.width != canvas.parentElement.offsetWidth ||
-      canvas.height != canvas.parentElement.offsetHeight
-    ) {
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
-    }
-
-    if (props.drawer?.loop) {
-      await props.drawer.loop(ctx);
-    }
-
-    requestAnimationFrame(innerLoop);
-  }
-
-  async function innerSetup() {
-    if (!canvasRef.current) {
-      return;
-    }
-    canvas = canvasRef.current as HTMLCanvasElement;
-    ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-
-    canvas.width = canvas.parentElement.offsetWidth;
-    canvas.height = canvas.parentElement.offsetHeight;
-
-    if (props.drawer?.setup) {
-      await props.drawer.setup(ctx);
-    }
-
-    requestAnimationFrame(innerLoop);
-  }
-
   useEffect(() => {
-    innerSetup();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let isMounted = true;
+
+    async function setup() {
+      if (canvas.parentElement) {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+      }
+      if (drawerRef.current?.setup) {
+        await drawerRef.current.setup(ctx);
+      }
+    }
+
+    async function loop() {
+      if (!isMounted || !ctx || !canvas.parentElement) return;
+
+      if (
+        canvas.width != canvas.parentElement.offsetWidth ||
+        canvas.height != canvas.parentElement.offsetHeight
+      ) {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+        if (drawerRef.current?.setup) {
+          await drawerRef.current.setup(ctx);
+        }
+      }
+
+      if (drawerRef.current?.loop) {
+        await drawerRef.current.loop(ctx);
+      }
+      animationFrameId.current = requestAnimationFrame(loop);
+    }
+
+    setup().then(() => {
+      if (isMounted) {
+        animationFrameId.current = requestAnimationFrame(loop);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { applyMove } from "../utils/chess/applyMove.ts";
 import { Board } from "../utils/chess/board.ts";
 import { initialBoard } from "../utils/chess/initialBoard.ts";
@@ -14,128 +14,24 @@ const pieceToUnicode: Record<string, string> = {
   "k": "♚",
 };
 
-const originalMoves = [
-  "1.e4",
-  "c5",
-  "2.Nf3",
-  "a6",
-  "3.d3",
-  "g6",
-  "4.g3",
-  "Bg7",
-  "5.Bg2",
-  "b5",
-  "6.O-O",
-  "Bb7",
-  "7.c3",
-  "e5",
-  "8.a3",
-  "Ne7",
-  "9.b4",
-  "d6",
-  "10.Nbd2",
-  "O-O",
-  "11.Nb3",
-  "Nd7",
-  "12.Be3",
-  "Rc8",
-  "13.Rc1",
-  "h6",
-  "14.Nfd2",
-  "f5",
-  "15.f4",
-  "Kh7",
-  "16.Qe2",
-  "cxb4",
-  "17.axb4",
-  "exf4",
-  "18.Bxf4",
-  "Rxc3",
-  "19.Rxc3",
-  "Bxc3",
-  "20.Bxd6",
-  "Qb6+",
-  "21.Bc5",
-  "Nxc5",
-  "22.bxc5",
-  "Qe6",
-  "23.d4",
-  "Rd8",
-  "24.Qd3",
-  "Bxd2",
-  "25.Nxd2",
-  "fxe4",
-  "26.Nxe4",
-  "Nf5",
-  "27.d5",
-  "Qe5",
-  "28.g4",
-  "Ne7",
-  "29.Rf7+",
-  "Kg8",
-  "30.Qf1",
-  "Nxd5",
-  "31.Rxb7",
-  "Qd4+",
-  "32.Kh1",
-  "Rf8",
-  "33.Qg1",
-  "Ne3",
-  "34.Re7",
-  "a5",
-  "35.c6",
-  "a4",
-  "36.Qxe3",
-  "Qxe3",
-  "37.Nf6+",
-  "Rxf6",
-  "38.Rxe3",
-  "Rd6",
-  "39.h4",
-  "Rd1+",
-  "40.Kh2",
-  "b4",
-  "41.c7",
-];
-
-const boardToString = (b: Board): string => {
-  let result = "";
-  for (let rowIdx = 0; rowIdx < b.length; rowIdx++) {
-    for (let colIdx = 0; colIdx < b[rowIdx].length; colIdx++) {
-      result += b[rowIdx][colIdx];
-    }
-  }
-  return result;
-};
-
-const boards = [initialBoard()];
-for (const move of originalMoves) {
-  const lastIdx = boards.length - 1;
-  const lastBoard = boards[lastIdx];
-  const newBoard = applyMove(lastBoard, move);
-  boards.push(newBoard);
-}
-
-let boardIdx = 0;
-
 class Drawer implements IDrawer {
   squareSize: number = 0;
 
-  constructor() {
-    console.log("drawer constructor");
+  constructor(private boards: Board[], private boardIdx: number) {
   }
 
   async setup(ctx: CanvasRenderingContext2D) {
-    console.log("drawer setup");
   }
 
   async loop(ctx: CanvasRenderingContext2D) {
-    console.log("drawer loop");
+    const board = this.boards[this.boardIdx];
+    if (!board) {
+      return;
+    }
+
     this.squareSize = Math.min(ctx.canvas.width, ctx.canvas.height) / 8;
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    const board = boards[boardIdx];
 
     for (let rowIdx = 0; rowIdx < board.length; rowIdx++) {
       for (let colIdx = 0; colIdx < board[rowIdx].length; colIdx++) {
@@ -172,17 +68,85 @@ class Drawer implements IDrawer {
 }
 
 export default function Chess() {
-  const [moveIndex, setMoveIndex] = useState<number>(0); // Start before the first move
-  const drawer = new Drawer();
+  const [moveIndex, setMoveIndex] = useState<number>(0);
+  const [originalMoves, setOriginalMoves] = useState<string[]>([]);
+  const [boards, setBoards] = useState<Board[]>([initialBoard()]);
+  const [boardIdx, setBoardIdx] = useState<number>(0);
+  const [drawer, setDrawer] = useState<Drawer>(new Drawer(boards, boardIdx));
+
+  useEffect(() => {
+    setDrawer(new Drawer(boards, boardIdx));
+  }, [boards, boardIdx]);
 
   const handlePrevMove = () => {
     setMoveIndex(moveIndex - 1);
-    boardIdx -= 1;
+    setBoardIdx(boardIdx - 1);
   };
 
   const handleNextMove = () => {
     setMoveIndex(moveIndex + 1);
-    boardIdx += 1;
+    setBoardIdx(boardIdx + 1);
+  };
+
+  const loadFile = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".pgn";
+    input.onchange = (event) => {
+      const file = (event.target as HTMLInputElement).files?.[0];
+      if (!file) {
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        const pgnLines = content.split("\n");
+        const games = [];
+        let localMoves: string[] = [];
+        let gameStarted = false;
+        for (const _line of pgnLines) {
+          const line = _line.trim();
+          if (line.startsWith("[")) {
+            continue;
+          }
+          if (line == "") {
+            if (gameStarted) {
+              localMoves.pop(); // remove game winner from moves
+              games.push([...localMoves]);
+            }
+            localMoves = [];
+            gameStarted = false;
+            continue;
+          }
+          if (/^[1-9][0-9]*\./.test(line)) {
+            gameStarted = true;
+            const innerMoves = line.replace(/  */g, " ").split(" ");
+            localMoves = localMoves.concat(innerMoves);
+          }
+        }
+
+        const newOriginalMoves = games[0] || [];
+        setOriginalMoves(newOriginalMoves);
+        setMoveIndex(0);
+        setBoardIdx(0);
+        const localBoards = [initialBoard()];
+        for (const move of newOriginalMoves) {
+          const lastIdx = localBoards.length - 1;
+          const lastBoard = localBoards[lastIdx];
+          if (lastBoard) {
+            const newBoard = applyMove(lastBoard, move);
+            localBoards.push(newBoard);
+          } else if (localBoards.length === 0 && move) {
+            console.error(
+              "Attempting to apply a move with no preceding board state.",
+            );
+          }
+        }
+        setBoards(localBoards);
+      };
+      reader.readAsText(file);
+    };
+    input.click();
   };
 
   return (
@@ -198,6 +162,7 @@ export default function Chess() {
             </div>
           ))}
         </div>
+        <Button onClick={loadFile}>Load File</Button>
         <Button onClick={handlePrevMove} disabled={moveIndex < 1}>Prev</Button>
         <Button
           onClick={handleNextMove}

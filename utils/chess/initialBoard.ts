@@ -1,4 +1,6 @@
-export const initialBoard = () => {
+import {Board} from "./board.ts";
+
+export const initialBoard = (): Board => {
   return [
     ["r", "n", "b", "q", "k", "b", "n", "r"],
     ["p", "p", "p", "p", "p", "p", "p", "p"],
