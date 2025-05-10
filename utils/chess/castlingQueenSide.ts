@@ -1,8 +1,8 @@
-import { Board } from "./board.ts";
+import { Board } from './board.ts';
 
 export const castlingQueenSide = (board: Board, white: boolean) => {
-  const king = white ? "K" : "k";
-  const rook = white ? "R" : "r";
+  const king = white ? 'K' : 'k';
+  const rook = white ? 'R' : 'r';
   const kingCoords = white ? [7, 4] : [0, 4];
   const rookCoords = white ? [7, 0] : [0, 0];
   const kingNewCoords = white ? [7, 2] : [0, 2];
@@ -10,10 +10,10 @@ export const castlingQueenSide = (board: Board, white: boolean) => {
   return board.map((row, i) =>
     row.map((square, j) => {
       if (i === kingCoords[0] && j === kingCoords[1]) {
-        return " ";
+        return ' ';
       }
       if (i === rookCoords[0] && j === rookCoords[1]) {
-        return " ";
+        return ' ';
       }
       if (i === kingNewCoords[0] && j === kingNewCoords[1]) {
         return king;

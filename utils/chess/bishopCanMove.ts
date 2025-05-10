@@ -1,4 +1,4 @@
-import { Board } from "./board.ts";
+import { Board } from './board.ts';
 
 export const bishopCanMove = (
   originCoords: number[],
@@ -18,7 +18,7 @@ export const bishopCanMove = (
   for (let i = 1; i < dx; i++) {
     const x = originX + i * dxSign;
     const y = originY + i * dySign;
-    if (currentBoardState[y][x] !== " ") {
+    if (currentBoardState[y][x] !== ' ') {
       return false;
     }
   }

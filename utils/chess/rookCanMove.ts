@@ -1,4 +1,4 @@
-import { Board } from "./board.ts";
+import { Board } from './board.ts';
 
 export const rookCanMove = (
   originCoords: number[],
@@ -21,7 +21,7 @@ export const rookCanMove = (
   for (let i = 1; i < Math.max(dx, dy); i++) {
     const x = originX + i * dxSign;
     const y = originY + i * dySign;
-    if (currentBoardState[y][x] !== " ") {
+    if (currentBoardState[y][x] !== ' ') {
       return false;
     }
   }

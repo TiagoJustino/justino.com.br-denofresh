@@ -1,7 +1,7 @@
-import { Board } from "./board.ts";
-import { isPieceBlack } from "./isPieceBlack.ts";
-import { isPieceWhite } from "./isPieceWhite.ts";
-import { isLegal } from "./isLegal.ts";
+import { Board } from './board.ts';
+import { isPieceBlack } from './isPieceBlack.ts';
+import { isPieceWhite } from './isPieceWhite.ts';
+import { isLegal } from './isLegal.ts';
 
 export const getSquareAttackers = (
   board: Board,

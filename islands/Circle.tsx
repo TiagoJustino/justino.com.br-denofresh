@@ -28,7 +28,7 @@ export class Circle {
 
   getColor() {
     if (this.overlaping) {
-      return "red";
+      return 'red';
     }
     return this.color;
   }

@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "preact/hooks";
-import Header from "../components/Header.tsx";
-import Footer from "../components/Footer.tsx";
+import { useEffect, useRef, useState } from 'preact/hooks';
+import Header from '../components/Header.tsx';
+import Footer from '../components/Footer.tsx';
 
 export interface IDrawer {
   loop?: (ctx: CanvasRenderingContext2D) => Promise<void>;
@@ -24,12 +24,12 @@ export default function Canvas(props: CanvasProps) {
   let ctx: CanvasRenderingContext2D | null = null;
   let canvas: HTMLCanvasElement | null = null;
 
-  const [state, setState] = useState({ lang: "en" });
+  const [state, setState] = useState({ lang: 'en' });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     let isMounted = true;
@@ -79,30 +79,30 @@ export default function Canvas(props: CanvasProps) {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen selection::bg-tiago-bg selection::text-tiago-white">
-      <div className="bg-tiago-bg flex flex-col">
+    <div className='flex flex-col min-h-screen selection::bg-tiago-bg selection::text-tiago-white'>
+      <div className='bg-tiago-bg flex flex-col'>
         <Header
-          title="Tiago Justino"
-          active="/"
+          title='Tiago Justino'
+          active='/'
           state={state}
           setState={setState}
         />
       </div>
       {!!props.children
         ? (
-          <div id="div1" className="flex-1 flex flex-row size-full">
-            <div id="canvasContainer" className="flex-1 w-2/3">
-              <canvas ref={canvasRef} className="bg-gray-300 size-full">
+          <div id='div1' className='flex-1 flex flex-row size-full'>
+            <div id='canvasContainer' className='flex-1 w-2/3'>
+              <canvas ref={canvasRef} className='bg-gray-300 size-full'>
               </canvas>
             </div>
-            <div className="w-1/3">
+            <div className='w-1/3'>
               {props.children}
             </div>
           </div>
         )
         : (
-          <div id="canvasContainer" className="flex-1">
-            <canvas ref={canvasRef} className="bg-gray-300 size-full"></canvas>
+          <div id='canvasContainer' className='flex-1'>
+            <canvas ref={canvasRef} className='bg-gray-300 size-full'></canvas>
           </div>
         )}
       <Footer />

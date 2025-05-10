@@ -1,17 +1,17 @@
-import { useEffect, useState } from "preact/hooks";
-import { applyMove } from "../utils/chess/applyMove.ts";
-import { Board } from "../utils/chess/board.ts";
-import { initialBoard } from "../utils/chess/initialBoard.ts";
-import Canvas, { IDrawer } from "./Canvas.tsx";
-import { Button } from "../components/Button.tsx";
+import { useEffect, useState } from 'preact/hooks';
+import { applyMove } from '../utils/chess/applyMove.ts';
+import { Board } from '../utils/chess/board.ts';
+import { initialBoard } from '../utils/chess/initialBoard.ts';
+import Canvas, { IDrawer } from './Canvas.tsx';
+import { Button } from '../components/Button.tsx';
 
 const pieceToUnicode: Record<string, string> = {
-  "p": "♟︎",
-  "r": "♜",
-  "n": "♞",
-  "b": "♝",
-  "q": "♛",
-  "k": "♚",
+  'p': '♟︎',
+  'r': '♜',
+  'n': '♞',
+  'b': '♝',
+  'q': '♛',
+  'k': '♚',
 };
 
 class Drawer implements IDrawer {
@@ -39,22 +39,22 @@ class Drawer implements IDrawer {
         const y = rowIdx * this.squareSize;
 
         if ((rowIdx + colIdx) % 2 === 0) {
-          ctx.fillStyle = "#f0d9b5";
+          ctx.fillStyle = '#f0d9b5';
         } else {
-          ctx.fillStyle = "#b58863";
+          ctx.fillStyle = '#b58863';
         }
 
         ctx.fillRect(x, y, this.squareSize, this.squareSize);
 
         const piece = board[rowIdx][colIdx];
-        if (piece !== " ") {
+        if (piece !== ' ') {
           const unicodePiece = pieceToUnicode[piece.toLocaleLowerCase()];
           if (unicodePiece) {
             const isWhite = piece === piece.toUpperCase();
-            ctx.fillStyle = isWhite ? "#FFFFFF" : "#000000";
+            ctx.fillStyle = isWhite ? '#FFFFFF' : '#000000';
             ctx.font = `${this.squareSize * 0.75}px Arial`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
             ctx.fillText(
               unicodePiece,
               x + this.squareSize / 2,
@@ -89,9 +89,9 @@ export default function Chess() {
   };
 
   const loadFile = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".pgn";
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.pgn';
     input.onchange = (event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
       if (!file) {
@@ -100,16 +100,16 @@ export default function Chess() {
       const reader = new FileReader();
       reader.onload = (e) => {
         const content = e.target?.result as string;
-        const pgnLines = content.split("\n");
+        const pgnLines = content.split('\n');
         const games = [];
         let localMoves: string[] = [];
         let gameStarted = false;
         for (const _line of pgnLines) {
           const line = _line.trim();
-          if (line.startsWith("[")) {
+          if (line.startsWith('[')) {
             continue;
           }
-          if (line == "") {
+          if (line == '') {
             if (gameStarted) {
               localMoves.pop(); // remove game winner from moves
               games.push([...localMoves]);
@@ -120,7 +120,7 @@ export default function Chess() {
           }
           if (/^[1-9][0-9]*\./.test(line)) {
             gameStarted = true;
-            const innerMoves = line.replace(/  */g, " ").split(" ");
+            const innerMoves = line.replace(/  */g, ' ').split(' ');
             localMoves = localMoves.concat(innerMoves);
           }
         }
@@ -138,7 +138,7 @@ export default function Chess() {
             localBoards.push(newBoard);
           } else if (localBoards.length === 0 && move) {
             console.error(
-              "Attempting to apply a move with no preceding board state.",
+              'Attempting to apply a move with no preceding board state.',
             );
           }
         }
@@ -150,12 +150,12 @@ export default function Chess() {
   };
 
   return (
-    <Canvas key="canvas" drawer={drawer}>
-      <div id="controls" class="flex flex-col">
-        <div id="movesList" class="grid grid-cols-2 gap-x-4">
+    <Canvas key='canvas' drawer={drawer}>
+      <div id='controls' class='flex flex-col'>
+        <div id='movesList' class='grid grid-cols-2 gap-x-4'>
           {originalMoves.map((move, index) => (
             <div
-              className={index == (moveIndex - 1) ? "bg-gray-300" : ""}
+              className={index == (moveIndex - 1) ? 'bg-gray-300' : ''}
               key={index}
             >
               {move}

@@ -1,5 +1,5 @@
-import Canvas, { IDrawer } from "./Canvas.tsx";
-import { getRandomInt } from "../utils/get-random-int.ts";
+import Canvas, { IDrawer } from './Canvas.tsx';
+import { getRandomInt } from '../utils/get-random-int.ts';
 
 // https://www.youtube.com/watch?v=NbX3RnlAyGU
 
@@ -16,13 +16,13 @@ class Drawer implements IDrawer {
 
   async setup(ctx: CanvasRenderingContext2D) {
     this.image = new Image();
-    this.image.src = "./tiago.jpeg";
+    this.image.src = './tiago.jpeg';
     this.image.onload = () => {
       this.loaded = true;
-      this.canvas = document.createElement("canvas");
+      this.canvas = document.createElement('canvas');
       this.canvas.width = this.image?.width ?? 0;
       this.canvas.height = this.image?.height ?? 0;
-      this.canvasCtx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
+      this.canvasCtx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
       if (this.image) {
         this.canvasCtx.drawImage(
           this.image,
@@ -60,5 +60,5 @@ class Drawer implements IDrawer {
 }
 
 export default function PixelPainting() {
-  return <Canvas key="canvas" drawer={new Drawer()}></Canvas>;
+  return <Canvas key='canvas' drawer={new Drawer()}></Canvas>;
 }

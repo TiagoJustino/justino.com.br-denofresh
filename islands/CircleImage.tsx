@@ -87,7 +87,7 @@ export class CircleImage {
         Math.PI * 2,
         true,
       );
-      ctx.fillStyle = "red";
+      ctx.fillStyle = 'red';
       ctx.fill();
       ctx.stroke();
       ctx.globalAlpha = 0.4;

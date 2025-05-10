@@ -1,4 +1,4 @@
-import { Board } from "./board.ts";
+import { Board } from './board.ts';
 
 export const knightCanMove = (
   originCoords: number[],

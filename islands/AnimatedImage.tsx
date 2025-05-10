@@ -1,6 +1,6 @@
-import Canvas, { IDrawer } from "./Canvas.tsx";
-import { getRandomInt } from "../utils/get-random-int.ts";
-import { CircleImage } from "./CircleImage.tsx";
+import Canvas, { IDrawer } from './Canvas.tsx';
+import { getRandomInt } from '../utils/get-random-int.ts';
+import { CircleImage } from './CircleImage.tsx';
 
 // https://www.youtube.com/watch?v=7BoJBYh16CQ
 
@@ -13,11 +13,11 @@ class Drawer implements IDrawer {
 
   async setup(ctx: CanvasRenderingContext2D) {
     const uris = [
-      "https://mdn.github.io/shared-assets/images/examples/rhino.jpg",
-      "https://justino.com.br/tiago.jpeg",
-      "https://justino.com.br/en.png",
-      "https://justino.com.br/br.png",
-      "https://justino.com.br/logo.jpg",
+      'https://mdn.github.io/shared-assets/images/examples/rhino.jpg',
+      'https://justino.com.br/tiago.jpeg',
+      'https://justino.com.br/en.png',
+      'https://justino.com.br/br.png',
+      'https://justino.com.br/logo.jpg',
     ];
     for (const uri of uris) {
       this.circles.push(
@@ -58,5 +58,5 @@ class Drawer implements IDrawer {
 }
 
 export default function AnimatedImage() {
-  return <Canvas key="canvas" drawer={new Drawer()}></Canvas>;
+  return <Canvas key='canvas' drawer={new Drawer()}></Canvas>;
 }

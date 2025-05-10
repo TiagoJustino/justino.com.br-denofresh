@@ -1,4 +1,4 @@
-import { Board } from "./board.ts";
+import { Board } from './board.ts';
 
 export const queenCanMove = (
   originCoords: number[],
@@ -19,7 +19,7 @@ export const queenCanMove = (
     let x = originX + stepX;
     let y = originY + stepY;
     while (x !== targetX || y !== targetY) {
-      if (currentBoardState[y][x] !== " ") {
+      if (currentBoardState[y][x] !== ' ') {
         return false;
       }
       x += stepX;

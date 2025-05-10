@@ -1,6 +1,6 @@
-import Canvas, { IDrawer } from "./Canvas.tsx";
-import { Circle } from "./Circle.tsx";
-import { getRandomInt } from "../utils/get-random-int.ts";
+import Canvas, { IDrawer } from './Canvas.tsx';
+import { Circle } from './Circle.tsx';
+import { getRandomInt } from '../utils/get-random-int.ts';
 
 // https://www.youtube.com/watch?v=V7k5bFQbhG0
 
@@ -10,15 +10,15 @@ class Drawer implements IDrawer {
   constructor() {
     this.circles = [];
     const colors = [
-      "blue",
-      "green",
-      "yellow",
-      "purple",
-      "orange",
-      "pink",
-      "brown",
-      "gray",
-      "black",
+      'blue',
+      'green',
+      'yellow',
+      'purple',
+      'orange',
+      'pink',
+      'brown',
+      'gray',
+      'black',
     ];
     for (const color of colors) {
       this.circles.push(
@@ -62,5 +62,5 @@ class Drawer implements IDrawer {
 }
 
 export default function Overlap() {
-  return <Canvas key="canvas" drawer={new Drawer()}></Canvas>;
+  return <Canvas key='canvas' drawer={new Drawer()}></Canvas>;
 }
