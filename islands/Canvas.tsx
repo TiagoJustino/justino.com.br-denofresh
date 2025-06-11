@@ -5,6 +5,7 @@ import Footer from '../components/Footer.tsx';
 export interface IDrawer {
   loop?: (ctx: CanvasRenderingContext2D) => Promise<void>;
   setup?: (ctx: CanvasRenderingContext2D) => Promise<void>;
+  handleClick?: (ctx: CanvasRenderingContext2D, x: number, y: number) => Promise<void>;
 }
 
 interface CanvasProps {
@@ -22,12 +23,11 @@ export default function Canvas(props: CanvasProps) {
   }, [props.drawer]);
 
   let ctx: CanvasRenderingContext2D | null = null;
-  let canvas: HTMLCanvasElement | null = null;
 
   const [state, setState] = useState({ lang: 'en' });
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas: HTMLCanvasElement = canvasRef.current as unknown as HTMLCanvasElement;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -42,6 +42,16 @@ export default function Canvas(props: CanvasProps) {
       if (drawerRef.current?.setup) {
         await drawerRef.current.setup(ctx);
       }
+
+      canvas.addEventListener('click', function (event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        if (drawerRef.current?.handleClick) {
+          drawerRef.current.handleClick(ctx, x, y);
+        }
+      });
     }
 
     async function loop() {
