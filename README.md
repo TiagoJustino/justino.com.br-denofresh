@@ -1,16 +1,58 @@
-# Fresh project
+# justino.com.br
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting Started" guide here:
-https://fresh.deno.dev/docs/getting-started
+Personal website built with [Deno Fresh](https://fresh.deno.dev/) 1.7, deployed on [Railway](https://railway.com/) via Docker.
 
-### Usage
+## Stack
 
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
+- **Runtime:** Deno 2.x
+- **Framework:** Fresh 1.7 (Preact + Islands architecture)
+- **Styling:** Twind (Tailwind-in-JS)
+- **Hosting:** Railway (Dockerfile builder)
+- **DNS/CDN:** Cloudflare (proxied)
 
-Then start the project:
+## Domains
 
+| URL | Behaviour |
+|-----|-----------|
+| https://justino.com.br | Primary (Railway) |
+| https://tiago.justino.com.br | Alias (Railway) |
+| https://www.justino.com.br | 301 redirect to apex (Cloudflare) |
+| https://www.tiago.justino.com.br | 301 redirect to tiago subdomain (Cloudflare) |
+
+HTTP requests are automatically redirected to HTTPS via Cloudflare "Always Use HTTPS".
+
+## Development
+
+Install [Deno](https://docs.deno.com/runtime/getting_started/installation/):
+
+```bash
+curl -fsSL https://deno.land/install.sh | sh
 ```
+
+Start the dev server (watches for changes):
+
+```bash
 deno task start
 ```
 
-This will watch the project directory and restart as necessary.
+Build production assets:
+
+```bash
+deno task build
+```
+
+Preview production build locally:
+
+```bash
+deno task preview
+```
+
+## Deployment
+
+Pushes to `main` trigger an automatic deploy on Railway via the project's Dockerfile.
+
+To deploy manually from the CLI:
+
+```bash
+railway up -m "description of changes"
+```
